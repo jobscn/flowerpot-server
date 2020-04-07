@@ -1,0 +1,11 @@
+app:
+  server:
+    port: 5000
+  name: "ai-flower-pot"
+
+mysql:
+  driverName: "mysql"
+  address: "192.168.1.56:3306"
+  username: "test"
+  password: "test"
+  database: "aifp"
