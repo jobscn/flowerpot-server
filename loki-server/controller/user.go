@@ -1,14 +1,9 @@
 package controller
 
 import (
-	"crypto/md5"
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"jobscn/ai-flower-pot/dao/impl"
-	"jobscn/ai-flower-pot/model/do"
-	"jobscn/ai-flower-pot/model/dto"
-	"jobscn/ai-flower-pot/service"
-	"jobscn/ai-flower-pot/ymer"
+	"jobscn/ai-flower-pot/loki-server/model/dto"
+	"jobscn/ai-flower-pot/loki-server/service"
 )
 
 type UserController struct {
@@ -37,14 +32,7 @@ func (p *UserController) Login(c *gin.Context)  {
 }
 
 func (p *UserController) Register(c *gin.Context) {
-	userDao := &dao_impl.UserDao{}
-	err := userDao.Insert(ymer.DBEngine, &do.TUser{
-		Username:   "test1",
-		Password:   fmt.Sprintf("%x", md5.Sum([]byte("123456"))),
-		Phone:      "13358292565",
-		Avatar:     "",
-		Gender:     0,
-	})
+
 
 	if err != nil {
 		panic(err)

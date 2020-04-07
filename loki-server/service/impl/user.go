@@ -1,8 +1,8 @@
-package impl
+package service_impl
 
 import (
 	"context"
-	"jobscn/ai-flower-pot/model/dto"
+	"jobscn/ai-flower-pot/loki-server/model/dto"
 )
 
 type UserService struct{

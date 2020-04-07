@@ -2,7 +2,7 @@ package startup
 
 import (
 	"github.com/gin-gonic/gin"
-	"jobscn/ai-flower-pot/controller"
+	"jobscn/ai-flower-pot/loki-server/controller"
 )
 
 //func c(f interface{}, methodName string) gin.HandlerFunc {

@@ -8,3 +8,12 @@ type UserLoginIn struct {
 type UserLoginOut struct {
 
 }
+
+type UserRegisterByPhoneIn struct {
+	Phone string
+	Password string
+}
+
+type UserRegisterByPhoneOut struct {
+
+}

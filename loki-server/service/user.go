@@ -2,9 +2,10 @@ package service
 
 import (
 	"context"
-	"jobscn/ai-flower-pot/model/dto"
+	"jobscn/ai-flower-pot/loki-server/model/dto"
 )
 
 type IUserService interface {
 	Login(ctx context.Context, in *dto.UserLoginIn) (*dto.UserLoginOut, error)
+	//Register(ctx context.Context, in *dto.UserRegisterByPhoneIn) (*dto.UserRegisterByPhoneOut, error)
 }

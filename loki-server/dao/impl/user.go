@@ -2,7 +2,7 @@ package dao_impl
 
 import (
 	"fmt"
-	"jobscn/ai-flower-pot/model/do"
+	"jobscn/ai-flower-pot/loki-server/model/do"
 	"xorm.io/xorm"
 )
 

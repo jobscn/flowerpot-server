@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"jobscn/ai-flower-pot/startup"
-	"jobscn/ai-flower-pot/util"
+	"jobscn/ai-flower-pot/loki-server/startup"
+	"jobscn/ai-flower-pot/loki-server/util"
 	"jobscn/ai-flower-pot/ymer"
 	"time"
 
