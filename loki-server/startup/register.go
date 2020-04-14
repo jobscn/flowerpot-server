@@ -1,8 +1,11 @@
 package startup
 
 import (
+	"github.com/facebookgo/inject"
 	"github.com/gin-gonic/gin"
 	"jobscn/ai-flower-pot/loki-server/controller"
+	dao_impl "jobscn/ai-flower-pot/loki-server/dao/impl"
+	service_impl "jobscn/ai-flower-pot/loki-server/service/impl"
 )
 
 //func c(f interface{}, methodName string) gin.HandlerFunc {
@@ -27,15 +30,33 @@ import (
 //}
 
 func RegisterGinRouter(app *gin.Engine) {
-	userController := controller.UserController{}
+	var userController controller.UserController
 
 	v1 := app.Group("/v1")
 	{
-		v1.GET("/user/login", userController.Login)
-		v1.GET("/user/register", userController.Register)
+		// relative to user controller
+		{
+			v1.GET("/user/login", userController.Login)
+			v1.GET("/user/register", userController.Register)
+		}
 	}
+
+	// register controller to injector
+	RegisterDependencyInjector(
+		&inject.Object{Value: &userController},
+		&inject.Object{Value: &service_impl.UserService{}},
+		&inject.Object{Value: &dao_impl.UserDao{}},
+	)
 }
 
-func RegisterDependencyInjector() {
+func RegisterDependencyInjector(v ...*inject.Object) {
+	graph := inject.Graph{}
 
+	if err := graph.Provide(v...); err != nil {
+		panic(err)
+	}
+
+	if err := graph.Populate(); err != nil {
+		panic(err)
+	}
 }

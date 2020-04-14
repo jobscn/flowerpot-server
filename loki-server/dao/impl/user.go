@@ -6,11 +6,11 @@ import (
 	"xorm.io/xorm"
 )
 
-type UserDao struct {}
+type UserDao struct{}
 
-func (p *UserDao)  GetByUsername(db *xorm.Engine, username string) (*do.TUser, error) {
+func (p *UserDao) GetByUsername(db *xorm.Engine, username string) (*do.TUser, error) {
 	user := &do.TUser{
-		Username:   username,
+		Username: username,
 	}
 
 	has, err := db.Where(user).Get(user)
@@ -24,7 +24,7 @@ func (p *UserDao)  GetByUsername(db *xorm.Engine, username string) (*do.TUser, e
 	return user, nil
 }
 
-func (p *UserDao)  Insert(db *xorm.Engine, do *do.TUser) error {
+func (p *UserDao) Insert(db *xorm.Engine, do *do.TUser) error {
 	n, err := db.InsertOne(do)
 	if err != nil {
 		return err

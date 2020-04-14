@@ -1,44 +1,35 @@
 package controller
 
 import (
+	"context"
 	"github.com/gin-gonic/gin"
 	"jobscn/ai-flower-pot/loki-server/model/dto"
 	"jobscn/ai-flower-pot/loki-server/service"
+	"jobscn/ai-flower-pot/loki/common"
 )
 
 type UserController struct {
-	service.IUserService
+	UserService service.IUserService `inject:""`
 }
 
-func (p *UserController) Login(c *gin.Context)  {
-	loginInfo := &dto.UserLoginIn{}
+func (p *UserController) Login(c *gin.Context) {
+	ctx := common.ContextWithGin(context.Background(), c)
 
-	err := c.BindJSON(loginInfo)
+	userLoginIn := &dto.UserLoginIn{}
+	err := c.BindQuery(userLoginIn)
 	if err != nil {
-		c.JSON(200, Response{
-			Code:    10000001,
-			Message: "参数错误",
-		})
+		common.GinUnvalidated(c, nil)
 		return
 	}
 
+	data, err := p.UserService.Login(ctx, userLoginIn)
+	if err != nil {
+		common.GinFailedWithError(c, err)
+		return
+	}
 
-
-	c.JSON(200, Response{
-		Code:    0,
-		Message: "123213",
-		Data:    nil,
-	})
+	common.GinSuccess(c, data)
 }
 
 func (p *UserController) Register(c *gin.Context) {
-
-
-	if err != nil {
-		panic(err)
-	}
-
-	c.JSON(200, gin.H{
-		"ok": "something right!",
-	})
 }

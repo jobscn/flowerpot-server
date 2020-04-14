@@ -2,25 +2,25 @@ package main
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"jobscn/ai-flower-pot/loki-server/startup"
 	"jobscn/ai-flower-pot/loki-server/util"
-	"jobscn/ai-flower-pot/ymer"
+	"jobscn/ai-flower-pot/loki/vars"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 	"xorm.io/xorm"
 )
 
-type PostgresConfig struct{
-	Host string
-	Port int32
-	User string
+type PostgresConfig struct {
+	Host     string
+	Port     int32
+	User     string
 	Password string
 	Database string
 }
 
-func NewPostgresDBEngine(config *PostgresConfig) *xorm.Engine{
+func NewPostgresDBEngine(config *PostgresConfig) *xorm.Engine {
 	// datasource arg format
 	dataSourceArg := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		config.Host, config.Port, config.User, config.Password, config.Database)
@@ -47,7 +47,7 @@ func main() {
 
 	startup.RegisterGinRouter(app)
 
-	ymer.DBEngine = NewPostgresDBEngine(&PostgresConfig{
+	vars.DBEngine = NewPostgresDBEngine(&PostgresConfig{
 		Host:     "127.0.0.1",
 		Port:     5432,
 		User:     "postgres",
