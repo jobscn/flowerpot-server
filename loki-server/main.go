@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"jobscn/ai-flower-pot/loki"
+	"jobscn/ai-flower-pot/loki-server/pkg/vars"
 	"jobscn/ai-flower-pot/loki-server/startup"
-	"jobscn/ai-flower-pot/loki-server/util"
-	"jobscn/ai-flower-pot/loki/vars"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -47,7 +47,7 @@ func main() {
 
 	startup.RegisterGinRouter(app)
 
-	vars.DBEngine = NewPostgresDBEngine(&PostgresConfig{
+	loki.DBEngine = NewPostgresDBEngine(&PostgresConfig{
 		Host:     "127.0.0.1",
 		Port:     5432,
 		User:     "postgres",
@@ -55,5 +55,5 @@ func main() {
 		Database: "loki_server",
 	})
 
-	app.Run(util.ServerAddress)
+	app.Run(vars.ServerAddress)
 }

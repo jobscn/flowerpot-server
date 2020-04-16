@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"jobscn/ai-flower-pot/loki-server/controller"
 	dao_impl "jobscn/ai-flower-pot/loki-server/dao/impl"
+	"jobscn/ai-flower-pot/loki-server/middleware"
 	service_impl "jobscn/ai-flower-pot/loki-server/service/impl"
 )
 
@@ -31,13 +32,23 @@ import (
 
 func RegisterGinRouter(app *gin.Engine) {
 	var userController controller.UserController
+	var deviceController controller.DeviceController
 
 	v1 := app.Group("/v1")
 	{
 		// relative to user controller
+		user := v1.Group("/user")
 		{
-			v1.GET("/user/login", userController.Login)
-			v1.GET("/user/register", userController.Register)
+			// session
+			user.POST("/session", userController.SessionLogin)
+
+			// account
+			user.POST("/account", userController.AccountRegister)
+		}
+
+		device := v1.Group("/device", middleware.JwtAuthMiddleware)
+		{
+			device.GET("/list", deviceController.GetList)
 		}
 	}
 

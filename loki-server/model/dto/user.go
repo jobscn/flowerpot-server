@@ -1,17 +1,18 @@
 package dto
 
 type UserLoginIn struct {
-	//Username string `json:"username" binding:"required"`
-	//Password string `json:"password" binding:"required"`
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
 
-type UserLoginOut struct {
+type UserRegisterIn struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
 
-type UserRegisterByPhoneIn struct {
-	Phone    string
-	Password string
-}
-
-type UserRegisterByPhoneOut struct {
+type UserInfo struct {
+	UID      int64  `json:"uid"`
+	Username string `json:"username"`
+	Avatar   string `json:"avatar"`
+	Gender   int    `json:"gender"`
 }

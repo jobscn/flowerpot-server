@@ -9,19 +9,18 @@ import (
 type UserDao struct{}
 
 func (p *UserDao) GetByUsername(db *xorm.Engine, username string) (*do.TUser, error) {
-	user := &do.TUser{
-		Username: username,
+	where := map[string]interface{}{
+		"username": username,
 	}
 
-	has, err := db.Where(user).Get(user)
+	var user do.TUser
+
+	_, err := db.Where(where).Get(&user)
 	if err != nil {
 		return nil, err
 	}
-	if has != true {
-		return nil, fmt.Errorf("no found result")
-	}
 
-	return user, nil
+	return &user, nil
 }
 
 func (p *UserDao) Insert(db *xorm.Engine, do *do.TUser) error {
@@ -34,4 +33,19 @@ func (p *UserDao) Insert(db *xorm.Engine, do *do.TUser) error {
 	}
 
 	return nil
+}
+
+func (p *UserDao) GetByPhone(db *xorm.Engine, phone string) (*do.TUser, error) {
+	where := map[string]interface{}{
+		"phone": phone,
+	}
+
+	var user do.TUser
+
+	_, err := db.Where(where).Get(&user)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
 }
