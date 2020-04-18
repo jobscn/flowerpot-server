@@ -7,16 +7,36 @@ import (
 	"time"
 )
 
-var JWTSigningMethod = jwt.SigningMethodHS256
+var JWT_SIGNING_METHOD = jwt.SigningMethodHS256
 
-const JWTSecret = "I3hJdWVLaSk5uchI"
+const (
+	AUTH_TYPE_TOKEN                    = 0
+	AUTH_SECRET_TOKEN                  = "bf3a174b-fa87-48c2-941e-50dd2d336b6a"
+	AUTH_SECRET_TOKEN_EXPIRE_IN        = 2 * time.Hour
+	AUTH_SECRET_TOKEN_EXPIRE_IN_SECOND = 2 * 60 * 60
+
+	AUTH_TYPE_REFRESH_TOKEN                    = 1
+	AUTH_SECRET_REFRESH_TOKEN                  = "5cfb6797-483c-4cfb-a374-57b65e0e89bb"
+	AUTH_SECRET_REFRESH_TOKEN_EXPIRE_IN        = 15 * 24 * time.Hour
+	AUTH_SECRET_REFRESH_TOKEN_EXPIRE_IN_SECOND = 15 * 24 * 60 * 60
+)
 
 type JWTPayload struct {
 	dto.UserInfo
 	jwt.StandardClaims
 }
 
-func GenAuthTokenByUserInfo(userInfo *dto.UserInfo) (string, error) {
+func getParamByAuthType(authType int64) (string, time.Duration, int) {
+	if authType == AUTH_TYPE_REFRESH_TOKEN {
+		return AUTH_SECRET_REFRESH_TOKEN, AUTH_SECRET_REFRESH_TOKEN_EXPIRE_IN, AUTH_SECRET_TOKEN_EXPIRE_IN_SECOND
+	}
+
+	return AUTH_SECRET_TOKEN, AUTH_SECRET_TOKEN_EXPIRE_IN, AUTH_SECRET_REFRESH_TOKEN_EXPIRE_IN_SECOND
+}
+
+func GenAuthTokenByUserInfo(authType int64, userInfo *dto.UserInfo) (string, int, error) {
+	secret, timeAppend, expireIn := getParamByAuthType(authType)
+
 	t := time.Now()
 	var payload = &JWTPayload{
 		UserInfo: dto.UserInfo{
@@ -26,30 +46,31 @@ func GenAuthTokenByUserInfo(userInfo *dto.UserInfo) (string, error) {
 			Gender:   userInfo.Gender,
 		},
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: t.Add(time.Hour).Unix(),
+			ExpiresAt: t.Add(timeAppend).Unix(),
 			IssuedAt:  t.Unix(),
 			NotBefore: t.Unix(),
 		},
 	}
 
-	j := jwt.NewWithClaims(JWTSigningMethod, payload)
+	j := jwt.NewWithClaims(JWT_SIGNING_METHOD, payload)
 
-	token, err := j.SignedString([]byte(JWTSecret))
+	token, err := j.SignedString(secret)
 
-	return "Bearer " + token, err
+	return "Bearer " + token, expireIn, err
 }
 
-func ValidateAuthTokenByUserInfo(t string) (*dto.UserInfo, error) {
+func ValidateAuthTokenByUserInfo(t string, authType int64) (*dto.UserInfo, error) {
+	secret, _, _ := getParamByAuthType(authType)
+
 	token, err := jwt.ParseWithClaims(t, &JWTPayload{}, func(*jwt.Token) (interface{}, error) {
-		return []byte(JWTSecret), nil
+		return secret, nil
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println(token.Valid)
 	if token.Valid {
-		if payload, ok := token.Claims.(*JWTPayload); ok {
+		if payload, ok := token.Claims.(*JWTPayload); ok && payload != nil {
 			return &dto.UserInfo{
 				UID:      payload.UID,
 				Username: payload.Username,

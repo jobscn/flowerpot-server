@@ -6,6 +6,5 @@ import (
 )
 
 type IUserService interface {
-	Login(ctx context.Context, in *dto.UserLoginIn) (string, error)
-	Register(ctx context.Context, in *dto.UserRegisterIn) error
+	Register(ctx context.Context, in *dto.UserRegisterParam) error
 }

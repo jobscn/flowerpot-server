@@ -18,7 +18,7 @@ func JwtAuthMiddleware(c *gin.Context) {
 		return
 	}
 
-	userInfo, err := util.ValidateAuthTokenByUserInfo(splits[1])
+	userInfo, err := util.ValidateAuthTokenByUserInfo(splits[1], util.AUTH_TYPE_TOKEN)
 	if err != nil {
 		common.GinUnauthorized(c, nil)
 		c.Abort()

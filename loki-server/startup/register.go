@@ -32,6 +32,7 @@ import (
 
 func RegisterGinRouter(app *gin.Engine) {
 	var userController controller.UserController
+	var sessionController controller.SessionController
 	var deviceController controller.DeviceController
 
 	v1 := app.Group("/v1")
@@ -40,10 +41,13 @@ func RegisterGinRouter(app *gin.Engine) {
 		user := v1.Group("/user")
 		{
 			// session
-			user.POST("/session", userController.SessionLogin)
+			user.POST("/session", sessionController.Login)
+
+			// refresh token
+			user.PUT("/session", sessionController.RefreshToken)
 
 			// account
-			user.POST("/account", userController.AccountRegister)
+			user.POST("/account", userController.Register)
 		}
 
 		device := v1.Group("/device", middleware.JwtAuthMiddleware)
