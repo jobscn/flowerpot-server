@@ -1,4 +1,4 @@
-package vars
+package loki
 
 import "xorm.io/xorm"
 

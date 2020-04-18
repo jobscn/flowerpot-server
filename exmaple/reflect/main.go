@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"jobscn/ai-flower-pot/controller"
+	"jobscn/ai-flower-pot/loki-server/controller"
 	"reflect"
 	"runtime"
 )

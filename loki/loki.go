@@ -1,4 +1,4 @@
-package ymer
+package loki
 
 type Application struct {
 	Name string
