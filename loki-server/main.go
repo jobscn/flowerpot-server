@@ -6,6 +6,7 @@ import (
 	"jobscn/ai-flower-pot/loki"
 	"jobscn/ai-flower-pot/loki-server/pkg/vars"
 	"jobscn/ai-flower-pot/loki-server/startup"
+	"os"
 	"time"
 
 	_ "github.com/lib/pq"
@@ -50,8 +51,8 @@ func main() {
 	loki.DBEngine = NewPostgresDBEngine(&PostgresConfig{
 		Host:     "127.0.0.1",
 		Port:     5432,
-		User:     "postgres",
-		Password: "123456",
+		User:     os.Getenv(`PGSQL_USER`),
+		Password: os.Getenv("PGSQL_PASSWORD"),
 		Database: "loki_server",
 	})
 
