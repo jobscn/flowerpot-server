@@ -12,5 +12,5 @@ type SessionToken struct {
 }
 
 type RefreshTokenParam struct {
-	Token string `json:"token" bindingL"required"`
+	Token string `json:"token" binding:"required"`
 }

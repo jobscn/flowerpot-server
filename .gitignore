@@ -25,10 +25,9 @@ _testmain.go
 *.prof
 deploypkg/*
 .idea/
+.idea
 .DS_Store
 .vscode
 debug
 __debug_bin
-
-loki-server
 
