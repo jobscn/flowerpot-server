@@ -6,6 +6,6 @@ import (
 )
 
 type ISessionService interface {
-	GenSessionToken(userInfo *dto.UserInfo) (*dto.SessionToken, error)
+	RefreshToken(ctx context.Context, in *dto.RefreshTokenParam) (*dto.SessionToken, error)
 	Login(ctx context.Context, in *dto.SessionLoginParam) (*dto.SessionToken, error)
 }

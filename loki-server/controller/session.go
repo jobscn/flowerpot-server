@@ -31,5 +31,19 @@ func (p *SessionController) Login(c *gin.Context) {
 }
 
 func (p *SessionController) RefreshToken(c *gin.Context) {
+	ctx := common.ContextWithGin(context.Background(), c)
 
+	in := &dto.RefreshTokenParam{}
+	if c.ShouldBind(in) != nil {
+		common.GinUnvalidated(c, nil)
+		return
+	}
+
+	data, err := p.SessionService.GenSessionToken(ctx, in)
+	if err != nil {
+		common.GinFailedWithError(c, err)
+		return
+	}
+
+	common.GinSuccess(c, data)
 }
