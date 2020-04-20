@@ -54,7 +54,7 @@ func GenAuthTokenByUserInfo(authType int64, userInfo *dto.UserInfo) (string, int
 
 	j := jwt.NewWithClaims(JWT_SIGNING_METHOD, payload)
 
-	token, err := j.SignedString(secret)
+	token, err := j.SignedString([]byte(secret))
 
 	return "Bearer " + token, expireIn, err
 }

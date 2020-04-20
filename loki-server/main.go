@@ -48,8 +48,6 @@ func main() {
 
 	startup.RegisterGinRouter(app)
 
-	fmt.Println(os.Getenv(`PGSQL_USER`))
-	fmt.Println(os.Getenv(`PGSQL_PASSWORD`))
 	loki.DBEngine = NewPostgresDBEngine(&PostgresConfig{
 		Host:     "127.0.0.1",
 		Port:     5432,

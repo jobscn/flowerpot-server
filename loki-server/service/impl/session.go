@@ -11,7 +11,7 @@ import (
 )
 
 type SessionService struct {
-	userDao dao.IUserDao `inject:""`
+	UserDao dao.IUserDao `inject:""`
 }
 
 func (p *SessionService) genSessionToken(userInfo *dto.UserInfo) (*dto.SessionToken, error) {
@@ -52,9 +52,8 @@ func (p *SessionService) genSessionToken(userInfo *dto.UserInfo) (*dto.SessionTo
 
 func (p *SessionService) Login(ctx context.Context, in *dto.SessionLoginParam) (*dto.SessionToken, error) {
 	// get user info by username
-	userInfo, err := p.userDao.GetByUsername(loki.DBEngine, in.Username)
+	userInfo, err := p.UserDao.GetByUsername(loki.DBEngine, in.Username)
 	if err != nil {
-		panic(err)
 		return nil, errcode.SESSION_UserDaoGetByUsernameErr
 	}
 

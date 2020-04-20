@@ -39,7 +39,7 @@ func (p *SessionController) RefreshToken(c *gin.Context) {
 		return
 	}
 
-	data, err := p.SessionService.GenSessionToken(ctx, in)
+	data, err := p.SessionService.RefreshToken(ctx, in)
 	if err != nil {
 		common.GinFailedWithError(c, err)
 		return

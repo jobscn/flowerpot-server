@@ -59,7 +59,10 @@ func RegisterGinRouter(app *gin.Engine) {
 	// register controller to injector
 	RegisterDependencyInjector(
 		&inject.Object{Value: &userController},
+		&inject.Object{Value: &sessionController},
+		&inject.Object{Value: &deviceController},
 		&inject.Object{Value: &service_impl.UserService{}},
+		&inject.Object{Value: &service_impl.SessionService{}},
 		&inject.Object{Value: &dao_impl.UserDao{}},
 	)
 }
